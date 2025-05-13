@@ -21,7 +21,7 @@ class userController {
             return next(ApiError.badRequest("Пользователь с таким именем уже существует"));
         }
         const hashPass = await bcrypt.hash(password, 5);
-        const user = await User.create({ email, role, password: hashPass });
+        const user = await User.create({ email, role, passwordHash: hashPass });
         const token = jwtGenerate(user.id, user.email, user.role);
         return res.json({ token: token });
     }
@@ -34,16 +34,16 @@ class userController {
         if (!user) {
             return next(ApiError.badRequest("Пользователь не найден"));
         }
-        let comparePass = bcrypt.compareSync(password, user.password);
+        let comparePass = bcrypt.compareSync(password, user.passwordHash);
         if (!comparePass) {
             return next(ApiError.badRequest("Неверный пароль"));
         }
         const token = jwtGenerate(user.id, user.email, user.role);
-        return res.json({ token: token, info: { confcode: user.confcode } });
+        return res.json({ token: token });
     }
     async auth(req, res, next) {
         const token = jwtGenerate(req.user.id, req.user.email, req.user.role);
-        return res.json({ token: token, info: { confcode: user.confcode } });
+        return res.json({ token: token });
     }
 }
 module.exports = new userController();
