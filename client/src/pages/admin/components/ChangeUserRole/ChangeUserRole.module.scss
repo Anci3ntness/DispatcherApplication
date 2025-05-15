@@ -1,0 +1,50 @@
+@use "../../../../styles/variables";
+.root {
+    padding: 1em 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+    h2 {
+        font-weight: 500;
+        font-size: 2em;
+    }
+    .adminpage {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        height: inherit;
+        background-color: variables.$primary-color-light;
+        padding: 1em 2em;
+        border-radius: 0.4em;
+        h3 {
+            font-weight: 500;
+            font-size: 1.2em;
+        }
+        .adminheader {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+            justify-content: center;
+            margin-bottom: 1em;
+        }
+        .model {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            .wrapper {
+                display: flex;
+                gap: 1em;
+                align-items: center;
+            }
+        }
+        .inputcomponent {
+            width: 20em;
+        }
+        .label {
+            font-weight: 500;
+        }
+        .createbtn {
+            width: 10em;
+        }
+    }
+}

@@ -3,18 +3,13 @@ const socketsHandler = require("../sockets");
 const ApiError = require("./apiError.js");
 const jwt = require("jsonwebtoken");
 
+let io;
 function initSocket(server) {
-    const io = new Server(server, {
-        cors: {
-            origin: "*",
-            methods: ["GET", "POST"],
-        },
-    });
-    io.use((socket, next) => {
+    const ioServer = new Server(server);
+    ioServer.use((socket, next) => {
         const token = socket.handshake.auth.token;
-
         if (!token) {
-            return next(new ApiError.unauth("Пользователь не авторизован"));
+            return next(ApiError.unauth("Пользователь не авторизован"));
         }
 
         try {
@@ -22,15 +17,20 @@ function initSocket(server) {
             socket.user = payload;
             next();
         } catch (err) {
-            return next(new ApiError.forbidden("Отказано в доступе"));
+            return next(ApiError.forbidden("Отказано в доступе"));
         }
     });
-    io.on("connection", socket => {
+    ioServer.on("connection", socket => {
         console.log("Новый клиент подключился:", socket.id);
-        socketsHandler(socket, io);
+        socketsHandler(socket, ioServer);
     });
-
+    io = ioServer;
+    return ioServer;
+}
+function getIO() {
+    if (!io) {
+        return;
+    }
     return io;
 }
-
-module.exports = initSocket;
+module.exports = { initSocket, getIO };

@@ -1,0 +1,80 @@
+@use "sass:color";
+@use "../../../styles/variables";
+.root {
+    position: relative;
+    background: none;
+    border: 2px solid variables.$secondary-color-black;
+    line-height: 1;
+    padding: 1em 2em 0.8em 2em;
+    color: variables.$text-color-black;
+    transition: 200ms;
+    text-align: center;
+    overflow: hidden;
+    &:disabled {
+        &::before {
+            background-color: inherit;
+        }
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: variables.$primary-color-blue;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 300ms ease;
+        z-index: 0;
+    }
+
+    &:hover::before {
+        transform: scaleX(0.7);
+    }
+
+    &:active::before {
+        transition-delay: 0;
+        transition-duration: 100ms;
+        transform: scaleX(1);
+    }
+
+    &:hover,
+    &:active {
+        border-color: color.scale(variables.$primary-color-blue, $blackness: 40%);
+        color: color.scale(variables.$text-color-black, $blackness: 100%);
+    }
+
+    * {
+        position: relative;
+        z-index: 1;
+    }
+}
+.danger {
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: variables.$attention-color;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 300ms ease;
+        z-index: 0;
+    }
+
+    &:hover::before {
+        transform: scaleX(0.7);
+    }
+
+    &:active::before {
+        transition-delay: 0;
+        transition-duration: 100ms;
+        transform: scaleX(1);
+    }
+
+    &:hover,
+    &:active {
+        border-color: color.scale(variables.$attention-color, $blackness: 40%);
+        color: color.scale(variables.$text-color-black, $blackness: 100%);
+    }
+}
+.disablebefore::before {
+    content: none;
+}

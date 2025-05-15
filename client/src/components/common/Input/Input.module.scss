@@ -1,0 +1,36 @@
+@use "sass:color";
+@use "../../../styles/variables";
+.root {
+    width: 100%;
+    background-color: variables.$primary-color-light;
+    border: 1px solid color.scale(variables.$border-color, $blackness: 40%);
+    border-radius: 2px;
+    padding: 0.2em 0.8em;
+    transition: 200ms;
+    line-height: 1;
+    box-sizing: border-box;
+    &:hover {
+        border-color: color.scale(variables.$primary-color-blue, $blackness: 40%);
+    }
+    &:focus {
+        border-color: color.scale(variables.$primary-color-blue, $blackness: 20%);
+    }
+    &::placeholder {
+        user-select: none;
+        color: color.scale(variables.$text-color-black, $lightness: 40%);
+    }
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    &[list] {
+        &::-webkit-calendar-picker-indicator,
+        ::-webkit-list-button {
+            cursor: text;
+            opacity: 0;
+            font-size: 0em;
+        }
+    }
+}

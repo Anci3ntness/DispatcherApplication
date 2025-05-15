@@ -1,0 +1,52 @@
+@use "./variables";
+@font-face {
+    font-family: "Overpass";
+    src: local("Overpass"), url(../fonts/Overpass-VariableFont.ttf) format("truetype");
+}
+@font-face {
+    font-family: "Overpass";
+    src: local("Overpass"), url(../fonts/Overpass-Italic-VariableFont.ttf) format("truetype");
+    font-style: italic;
+}
+html,
+body {
+    font-family: "Overpass", Helvetica, sans-serif;
+    background-color: variables.$bg-light;
+    color: variables.$text-color-black;
+    scroll-behavior: smooth;
+    font-size: variables.$global-font-size;
+    line-height: 1.2;
+}
+button,
+a {
+    all: unset;
+    cursor: pointer;
+}
+a:hover {
+    text-decoration: none;
+    outline: none;
+}
+input {
+    all: unset;
+    cursor: text;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    all: unset;
+}
+h1 {
+    font-weight: 500;
+    font-size: 2em;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none !important;
+    scroll-behavior: smooth;
+}

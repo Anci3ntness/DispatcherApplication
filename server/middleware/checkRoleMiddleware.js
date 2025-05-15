@@ -1,25 +1,31 @@
 const jwt = require("jsonwebtoken");
 const ApiError = require("../utility/apiError.js");
+const User = require("../models/UserModel.js");
 
-function roleHandler(role) {
-    return (req, res, next) => {
+function checkHandler(...roles) {
+    return async (req, res, next) => {
         if (req.method === "OPTIONS") {
-            next();
+            return next();
         }
         try {
             const token = req.headers.authorization.split(" ")[1]; // Bearer, token
+
             if (!token) {
-                next(new ApiError.unauth("Пользователь не авторизован"));
+                return next(ApiError.unauth("Пользователь не авторизован"));
             }
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const user = await User.findByPk(decoded?.id);
             req.user = decoded;
-            if (decoded.role !== role) {
-                next(new ApiError.forbidden("Отказано в доступе"));
+            if (user.role !== decoded.role) return next(ApiError.forbidden("Отказано в доступе"));
+
+            if (![...roles].includes(decoded.role)) {
+                return next(ApiError.forbidden("Отказано в доступе"));
             }
-            next();
+
+            return next();
         } catch (e) {
-            next(new ApiError.unauth("Пользователь не авторизован"));
+            return next(ApiError.unauth("Пользователь не авторизован"));
         }
     };
 }
-module.exports = roleHandler;
+module.exports = checkHandler;

@@ -1,0 +1,66 @@
+@use "sass:color";
+@use "../../styles/variables";
+.root {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    box-shadow: 0 0 1px 1px variables.$primary-color-blue;
+    border-radius: 0.5em;
+    padding: 1em;
+    height: 15em;
+    background-color: variables.$secondary-color-blue;
+    transition: 50ms;
+    gap: 1em;
+    width: 25em;
+    cursor: pointer;
+    color: black;
+    font-size: 0.8em;
+    &:hover {
+        box-shadow: 0 0 2px 2px variables.$primary-color-blue;
+    }
+
+    .creator {
+        font-size: 1.2em;
+        font-weight: 450;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        word-break: break-all;
+        text-overflow: ellipsis;
+    }
+    .topic {
+        width: 100%;
+        display: -webkit-box;
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .address {
+        width: 100%;
+        display: -webkit-box;
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .status {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        word-break: break-all;
+        text-overflow: ellipsis;
+    }
+    .created {
+        align-self: flex-end;
+    }
+}
+.expired {
+    background-color: variables.$attention-color !important;
+}
+.progress {
+    background-color: variables.$primary-color-blue !important;
+}

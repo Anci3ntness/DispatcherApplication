@@ -1,0 +1,41 @@
+@use "sass:color";
+@use "../../../styles/variables";
+.root {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    .checkbox {
+        position: absolute;
+        opacity: 0;
+        &__custom {
+            position: relative;
+            width: 1.4em;
+            height: 1.4em;
+            border: 1px solid color.scale(variables.$border-color, $blackness: 40%);
+            transition: all 200ms ease;
+            margin-right: 0.8em;
+            border-radius: 0.2em;
+            svg {
+                position: absolute;
+                top: 0.3em;
+                left: 0.3em;
+                fill: none;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke: variables.$primary-color-blue;
+                stroke-width: 2;
+                stroke-dasharray: 17;
+                stroke-dashoffset: 17;
+            }
+        }
+        &:checked + .checkbox__custom {
+            border-color: color.scale(variables.$primary-color-blue, $blackness: 40%);
+            svg {
+                stroke-dashoffset: 0;
+                transition: all 0.15s ease;
+            }
+        }
+    }
+}

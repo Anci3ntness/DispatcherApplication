@@ -3,6 +3,12 @@ const sequelize = require("../utility/database");
 const { USER_ROLES } = require("../utility/constants.js");
 
 const User = sequelize.define("User", {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -13,7 +19,8 @@ const User = sequelize.define("User", {
         allowNull: false,
     },
     role: {
-        type: DataTypes.ENUM(Object.values(USER_ROLES).toString()),
+        type: DataTypes.ENUM(),
+        values: Object.values(USER_ROLES),
         allowNull: false,
         defaultValue: USER_ROLES.USER,
     },

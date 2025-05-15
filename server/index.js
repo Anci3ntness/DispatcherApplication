@@ -5,7 +5,7 @@ const router = require("./routes/index.js");
 const { syncDatabase } = require("./models/index.js");
 const ErrorHandler = require("./middleware/errorHandlerMiddleware.js");
 const http = require("http");
-const initSocket = require("./utility/socket.js");
+const { initSocket } = require("./utility/socket.js");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -27,11 +27,11 @@ initSocket(server);
 const start = async () => {
     try {
         await syncDatabase();
-        app.listen(PORT, () => {
-            console.info(`Server started on port ${PORT}`);
+        server.listen(PORT, () => {
+            console.info(`Сервер запущен на порте ${PORT}`);
         });
     } catch (e) {
-        console.error("Error to start server!" + "\n-----------------\n" + e);
+        console.error("Ошибка при запуске сервера!" + "\n-----------------\n" + e);
     }
 };
 

@@ -30,9 +30,9 @@ const syncDatabase = async () => {
         TicketStatusHistory.belongsTo(User, { as: "changer", foreignKey: "changedById" });
 
         await sequelize.sync({ force: false });
-        console.info("Database was syncronized");
+        console.info("База данных синхронизирована");
     } catch (error) {
-        console.error("Error to syncronize database:", error);
+        console.error("Ошибка при синхронизации базы данных:", error);
     }
 };
 

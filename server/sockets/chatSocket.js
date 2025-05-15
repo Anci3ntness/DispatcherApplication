@@ -1,20 +1,24 @@
-const { Ticket } = require("../models");
+const { Ticket, ChatMessage } = require("../models");
 module.exports = async function (socket, io) {
     socket.on("chat:join", async ({ ticketId }) => {
         const userId = socket.user.id;
+
         const ticket = await Ticket.findByPk(ticketId);
+
         if (!ticket || ![ticket.clientId, ticket.dispatcherId].includes(userId)) {
-            socket.emit("error", "Нет доступа к этой заявке");
+            socket.emit("chat:error", { reason: "Нет доступа к этой заявке" });
             return;
         }
-        socket.join(`ticket-${ticketId}`);
-        console.log(`${socket.id} присоединился к комнате ticket-${ticketId}`);
+        socket.join(`chat-${ticketId}`);
+        console.log(`${socket.user.id} присоединился к комнате chat-${ticketId}`);
     });
-    socket.on("chat:message", ({ ticketId, message }) => {
-        io.to(`ticket-${ticketId}`).emit("chat:message", {
-            senderId: socket.user.id,
-            message,
-        });
+    socket.on("chat:message", async ({ ticketId, message }) => {
+        const newMessage = await ChatMessage.create({ ticketId, message, senderId: socket.user.id });
+
+        if (!newMessage) {
+            return socket.emit("chat:error", { reason: "Произошла непредвиденная ошибка" });
+        }
+        io.to(`chat-${ticketId}`).emit("chat:message", newMessage);
     });
 
     socket.on("disconnect", () => {
