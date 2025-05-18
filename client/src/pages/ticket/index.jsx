@@ -174,6 +174,7 @@ function TicketPage() {
                                 onClick={async () => {
                                     if (newSpecialist) await assignSpecialistToTicket(ticketId, newSpecialist);
                                     if (newStatus) await updateTicketStatus(ticketId, newStatus);
+                                    showNotification("Сведения обновлены", false);
                                 }}
                             >
                                 Применить

@@ -3,10 +3,14 @@
     position: fixed;
     bottom: 1em;
     right: 1em;
-    background: variables.$attention-color;
-    color: variables.$primary-color-light;
+    background: variables.$primary-color-blue;
+    color: variables.$text-color-black;
     padding: 1em 1.5em;
     border-radius: 0.5em;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+}
+.danger {
+    background: variables.$attention-color;
+    color: variables.$primary-color-light;
 }

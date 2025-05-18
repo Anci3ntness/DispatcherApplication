@@ -20,7 +20,9 @@ module.exports = async function (socket, io) {
         }
         io.to(`chat-${ticketId}`).emit("chat:message", newMessage);
     });
-
+    socket.on("connect_error", err => {
+        console.error("Ошибка подключения:", err.message, err.stack);
+    });
     socket.on("disconnect", () => {
         console.log("Клиент отключился:", socket.id);
     });

@@ -4,6 +4,12 @@ const sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_
     dialect: process.env.DATABASE_DIALECT,
     host: process.env.DATABASE_HOST,
     logging: false,
+    pool: {
+        max: 20,
+        min: 5,
+        acquire: 30000,
+        idle: 10000,
+    },
 });
 
 sequelize

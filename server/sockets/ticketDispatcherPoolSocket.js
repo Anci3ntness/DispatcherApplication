@@ -1,4 +1,4 @@
-const { Ticket } = require("../models/index.js");
+const { Ticket, TicketStatusHistory } = require("../models/index.js");
 const { USER_ROLES, TICKET_MAIN_STATUSES } = require("../utility/constants.js");
 
 module.exports = async function (socket, io) {
@@ -23,7 +23,12 @@ module.exports = async function (socket, io) {
             ticket.dispatcherId = socket.user.id;
             ticket.status = TICKET_MAIN_STATUSES.IN_PROGRESS;
             const updatedTicket = await ticket.save();
-
+            await TicketStatusHistory.create({
+                oldStatus: TICKET_MAIN_STATUSES.NEW,
+                newStatus: TICKET_MAIN_STATUSES.IN_PROGRESS,
+                ticketId: ticket.id,
+                changedById: socket.user.id,
+            });
             if (!updatedTicket) return socket.emit("ticket:take_failed", { reason: "Произошла непредвиденная ошибка" });
             io.to("ticket-dispatcher-pool").emit("ticket:ready", {
                 dispatcherId: socket.user.id,

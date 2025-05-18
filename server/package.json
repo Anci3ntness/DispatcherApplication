@@ -5,9 +5,12 @@
     "type": "commonjs",
     "scripts": {
         "dev": "nodemon index.js",
-        "start": "node index.js"
+        "start": "node index.js",
+        "test": "concurrently -k -s first -n server,artillery \"npm run start\" \"npm run wait-and-test\"",
+        "wait-and-test": "wait-on http://localhost:5000 && artillery run test.yml"
     },
     "dependencies": {
+        "artillery": "^2.0.21",
         "bcrypt": "^5.1.1",
         "cors": "^2.8.5",
         "dotenv": "^16.4.7",
@@ -20,6 +23,8 @@
         "uuid": "^11.1.0"
     },
     "devDependencies": {
-        "nodemon": "^2.0.22"
+        "concurrently": "^9.1.2",
+        "nodemon": "^2.0.22",
+        "wait-on": "^8.0.3"
     }
 }

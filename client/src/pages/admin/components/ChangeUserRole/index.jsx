@@ -68,6 +68,7 @@ function ChangeUserRole() {
                                 .then(() => {
                                     setSelected("");
                                     setSelectedRole("");
+                                    showNotification("Сведения обновлены", false);
                                 })
                                 .catch(err => {
                                     showNotification(err?.response?.data?.message || err.message);

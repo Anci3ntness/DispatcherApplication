@@ -1,0 +1,49 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 300
+      arrivalRate: 100
+      maxVusers: 100
+      name: "Chat emit message test"
+  protocols: [http, socketio]
+  processor: "./utility/testHandler.js"
+  socketio:
+    transports: ["websocket"]
+    autoConnect: true
+  variables:
+    email: "mashkov@mail.ru"
+    password: "123456"
+    ticketId: "696fa2f9-d97d-4e18-a02e-d7a9daf00071"
+before:
+  flow:
+    - post:
+        url: "/api/user/login"
+        json:
+          email: "{{ email }}"
+          password: "{{ password }}"
+        capture:
+          - json: "$.token"
+            as: "token"
+scenarios:
+  - name: "Тестирование чата"
+    engine: "socketio"
+    socketio:
+      transports: ["websocket"]
+      autoConnect: true
+      auth:
+        token: "{{ token }}"
+    flow:
+    - emit:
+        channel: "chat:join"
+        data:
+          ticketId: "{{ ticketId }}"
+    - loop:
+      - emit:
+          channel: "chat:message"
+          data:
+            ticketId: "{{ ticketId }}"
+            message: "Тестовое сообщение"
+      count: 100
+after:
+  flow:
+  - function: "teardown"

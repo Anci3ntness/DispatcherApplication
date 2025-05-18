@@ -65,6 +65,7 @@ function AssignPage() {
                 <Button
                     onClick={async () => {
                         await updateAssign(assign.id, status, note);
+                        showNotification("Сведения обновлены", false);
                     }}
                 >
                     Применить
