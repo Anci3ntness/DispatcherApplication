@@ -49,7 +49,7 @@ function TicketHistory() {
     return (
         <div className={styles.root}>
             <Spinner isLoading={loading} />
-            <h2>Изменить роль пользователя</h2>
+            <h2>Посмотреть историю заявки</h2>
             <div className={styles.adminpage}>
                 <div className={styles.adminheader}>
                     <h3>Выберите заявку</h3>
