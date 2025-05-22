@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { User, TicketAssignment } = require("../models");
 const { v4 } = require("uuid");
-const { USER_ROLES } = require("../utility/constants.js");
+const { USER_ROLES, TICKET_SPECIALIST_STATUSES } = require("../utility/constants.js");
 const { Op, Sequelize } = require("sequelize");
 function jwtGenerate(id, email, role) {
     return jwt.sign({ id, email, role }, process.env.JWT_SECRET, { expiresIn: "24h" });
@@ -77,7 +77,9 @@ class userController {
         const users = await User.findAll({
             where: {
                 id: {
-                    [Op.notIn]: Sequelize.literal('(SELECT DISTINCT "specialistId" FROM "TicketAssignments")'),
+                    [Op.notIn]: Sequelize.literal(
+                        `(SELECT DISTINCT "specialistId" FROM "TicketAssignments" WHERE "specialistStatus" NOT IN ('${TICKET_SPECIALIST_STATUSES.COMPLETED}', '${TICKET_SPECIALIST_STATUSES.RETURNED}') )`
+                    ),
                 },
                 role: USER_ROLES.PERFORMER,
             },
